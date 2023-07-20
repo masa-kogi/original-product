@@ -1,0 +1,125 @@
+@startuml nk_jobboard
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "departments" as dep {
+  *id
+  --
+  *name
+  *ancestry
+}
+
+entity "recruiters" as rec {
+  *id
+  --
+  *name
+  *department_id
+  *position_id
+  *email
+  *password
+}
+
+entity "positions" as pos {
+  *id
+  --
+  *name
+}
+
+entity "job_recruiter" as jr {
+  *id
+  --
+  *job_id
+  *recruiter_id
+}
+
+entity "work_locations" as loc {
+  *id
+  --
+  *name
+}
+
+entity "job_categories" as cat {
+  *id
+  --
+  *name
+}
+
+entity "jobs" as job {
+  *id
+  --
+  *title
+  *job_category_id
+  *department_id
+  *work_location_id
+  *job_description
+  *application_requirement
+  *contact_person
+}
+
+entity "open_jobs" as oj {
+  *job_id
+  --
+  *open_date
+}
+
+entity "closed_jobs" as cj {
+  *job_id
+  --
+  *closed_date
+}
+
+entity "applications" as app {
+  *id
+  --
+  *job_id
+  *applicant_id
+  *application_date
+  *reason_for_application
+  *self_promotion
+}
+
+entity "job_seekers" as js {
+  *id
+  --
+  *name
+  *department_id
+  *position_id
+  *email
+  *password
+  *qualification
+  *skill
+}
+
+entity "application_stages" as a_stage {
+  *id
+  --
+  *name
+}
+
+entity "application_management" as a_man {
+  *id
+  --
+  *application_id
+  *application_stage_id
+}
+
+dep ||..|{ rec
+dep ||..|{ js
+pos ||..|{ rec
+pos ||..|{ js
+rec ||..|{ jr
+job ||..|{ jr
+dep ||..|{ job
+loc ||..|{ job
+cat ||..|{ job
+oj ||..|| job
+cj ||..|| job
+job ||..|{ app
+js ||..|{ app
+app ||..|{ a_man
+a_stage ||..|{ a_man
+
+@enduml
